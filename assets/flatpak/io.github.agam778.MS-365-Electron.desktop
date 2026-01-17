@@ -1,0 +1,46 @@
+[Desktop Entry]
+Name=MS 365 Electron
+GenericName=Office Suite
+Comment=Unofficial Microsoft 365 Web Desktop Wrapper
+Keywords=office;microsoft;word;excel;powerpoint;outlook;onedrive;teams;365
+Exec=start-ms-365-electron %U
+Icon=io.github.agam778.MS-365-Electron
+Type=Application
+Categories=Office;Network;
+MimeType=application/msword;application/vnd.ms-excel;application/vnd.ms-powerpoint;application/vnd.openxmlformats-officedocument.wordprocessingml.document;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;application/vnd.openxmlformats-officedocument.presentationml.presentation;x-scheme-handler/ms365;
+StartupNotify=true
+StartupWMClass=ms-365-electron
+Terminal=false
+Actions=new-window;new-work-window;word;excel;powerpoint;outlook;teams;compose;
+
+[Desktop Action new-window]
+Name=New Window
+Exec=start-ms-365-electron
+
+[Desktop Action new-work-window]
+Name=New Window (Work Account)
+Exec=start-ms-365-electron --account work
+
+[Desktop Action word]
+Name=Open Word
+Exec=start-ms-365-electron --app word
+
+[Desktop Action excel]
+Name=Open Excel
+Exec=start-ms-365-electron --app excel
+
+[Desktop Action powerpoint]
+Name=Open PowerPoint
+Exec=start-ms-365-electron --app powerpoint
+
+[Desktop Action outlook]
+Name=Open Outlook
+Exec=start-ms-365-electron --app outlook
+
+[Desktop Action teams]
+Name=Open Teams
+Exec=start-ms-365-electron --app teams
+
+[Desktop Action compose]
+Name=Compose New Email
+Exec=start-ms-365-electron --compose
