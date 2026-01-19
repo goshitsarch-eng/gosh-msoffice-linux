@@ -37,9 +37,7 @@ jobs:
           sudo apt-get install -y rpm
 
       - name: Build x64 packages
-        run: npm run dist:x64
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run dist:x64 -- --publish never
 
       - name: Upload x64 artifacts
         uses: actions/upload-artifact@v4
@@ -78,9 +76,7 @@ jobs:
           sudo apt-get install -y rpm
 
       - name: Build ARM64 packages
-        run: npm run dist:arm64
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run dist:arm64 -- --publish never
 
       - name: Upload ARM64 artifacts
         uses: actions/upload-artifact@v4
