@@ -58,11 +58,27 @@ sudo dpkg -i MS-365-Electron-v2.1.0-linux-amd64.deb   # x86_64
 sudo apt-get install -f  # Install dependencies if needed
 ```
 
-### AppImage
+### Tarball (tar.gz)
+
+Extract and run manually:
 
 ```bash
-chmod +x MS-365-Electron-v2.1.0-linux-arm64.AppImage
-./MS-365-Electron-v2.1.0-linux-arm64.AppImage
+# Extract
+tar -xzf MS-365-Electron-v2.1.0-linux-x64.tar.gz
+
+# Run
+cd MS-365-Electron-v2.1.0-linux-x64
+./ms-365-electron
+```
+
+Optional: Install to `/opt` for system-wide access:
+
+```bash
+# Extract to /opt
+sudo tar -xzf MS-365-Electron-v2.1.0-linux-x64.tar.gz -C /opt
+
+# Create symlink
+sudo ln -sf /opt/MS-365-Electron-v2.1.0-linux-x64/ms-365-electron /usr/local/bin/ms-365-electron
 ```
 
 ### From Source
