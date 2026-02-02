@@ -164,7 +164,7 @@ export function launchApp(appName, options = {}) {
   if (!openInNewWindow && !focusedWindow) {
     const focused = BrowserWindow.getFocusedWindow();
     if (focused) {
-      focused.loadURL(url);
+      focused.loadURL(url).catch((err) => console.warn("Failed to load URL:", err));
       return null;
     }
   }
@@ -172,7 +172,7 @@ export function launchApp(appName, options = {}) {
   if (focusedWindow) {
     const focused = BrowserWindow.getFocusedWindow();
     if (focused) {
-      focused.loadURL(url);
+      focused.loadURL(url).catch((err) => console.warn("Failed to load URL:", err));
       return null;
     }
   }
@@ -180,7 +180,7 @@ export function launchApp(appName, options = {}) {
   // Create new window
   const windowOptions = getWindowOptions({ accountType });
   const newWindow = new BrowserWindow(windowOptions);
-  newWindow.loadURL(url);
+  newWindow.loadURL(url).catch((err) => console.warn("Failed to load URL:", err));
 
   return newWindow;
 }
@@ -197,7 +197,7 @@ export function createNewWindow(accountType) {
 
   const windowOptions = getWindowOptions({ accountType });
   const newWindow = new BrowserWindow(windowOptions);
-  newWindow.loadURL(url);
+  newWindow.loadURL(url).catch((err) => console.warn("Failed to load URL:", err));
 
   return newWindow;
 }
@@ -211,7 +211,7 @@ export function goHome() {
 
   const custompage = getValue("custompage") || "home";
   const auth = getValue("enterprise-or-normal") || "?auth=1";
-  focused.loadURL(`https://microsoft365.com/${custompage}/${auth}`);
+  focused.loadURL(`https://microsoft365.com/${custompage}/${auth}`).catch((err) => console.warn("Failed to load URL:", err));
 }
 
 /**

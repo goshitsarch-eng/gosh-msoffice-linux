@@ -110,14 +110,26 @@ export function configureScreenSharing(ses = session.defaultSession) {
       return;
     }
 
-    // Default: allow
-    callback(true);
+    // Allow clipboard access
+    if (permission === "clipboard-read" || permission === "clipboard-sanitized-write") {
+      callback(true);
+      return;
+    }
+
+    // Default: deny all other permissions
+    console.log(`Denied permission request: ${permission}`);
+    callback(false);
   });
 
   // Set up device permission handler (for persistent permissions)
   ses.setDevicePermissionHandler((details) => {
-    // Allow all devices for now (camera, microphone)
-    return true;
+    // Only allow audio/video input devices (camera, microphone)
+    const allowedTypes = ["audiooutput", "audioinput", "videoinput"];
+    if (allowedTypes.includes(details.deviceType)) {
+      return true;
+    }
+    console.log(`Denied device permission: ${details.deviceType}`);
+    return false;
   });
 }
 

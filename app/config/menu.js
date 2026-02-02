@@ -3,7 +3,7 @@
  * Clean, organized menu structure following GNOME Human Interface Guidelines
  */
 
-import { dialog, BrowserWindow, clipboard, shell } from "electron";
+import { app, dialog, BrowserWindow, clipboard, shell } from "electron";
 import { launchApp, createNewWindow, goHome, getAppList } from "./appLauncher.js";
 import { showPreferences } from "./preferences.js";
 import { checkForUpdates, openExternalLink, openLogsFolder } from "./utils.js";
@@ -42,7 +42,6 @@ function buildMenuTemplate() {
             });
             if (!result.canceled && result.filePaths.length > 0) {
               // Emit event for file handler to process
-              const { app } = await import("electron");
               app.emit("open-file", { preventDefault: () => {} }, result.filePaths[0]);
             }
           },
@@ -320,7 +319,6 @@ Other
  * Show about dialog
  */
 async function showAboutDialog() {
-  const { app } = await import("electron");
   const version = app.getVersion();
 
   const result = await dialog.showMessageBox({
