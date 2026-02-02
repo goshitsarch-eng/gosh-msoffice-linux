@@ -65,6 +65,11 @@ Object.assign(console, functions);
 
 console.log(`Display server: ${getDisplayServer()}`);
 
+// Global unhandled rejection handler
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("Unhandled promise rejection:", reason);
+});
+
 // Track whether the app is quitting (for minimize to tray feature)
 let isQuitting = false;
 
@@ -149,14 +154,12 @@ function createWindow() {
     if (getValue("blockadsandtrackers") === "true") {
       ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then((blocker) => {
         blocker.enableBlockingInSession(win.webContents.session);
+      }).catch((err) => {
+        console.warn("Failed to initialize ad blocker:", err);
       });
     }
 
-    // Inject feature scripts
-    injectNotificationObserver(win);
-    injectCallDetection(win);
-    injectMediaStateTracking(win);
-    injectDropHandler(win);
+    // Feature scripts are injected via the web-contents-created handler
   });
 
   return win;
@@ -257,7 +260,9 @@ app.on("ready", () => {
 
   // Auto updater
   if (getValue("autoupdater") === "true") {
-    autoUpdater.checkForUpdatesAndNotify();
+    autoUpdater.checkForUpdatesAndNotify().catch((err) => {
+      console.warn("Auto-update check failed:", err);
+    });
   }
 
   // Discord RPC
@@ -282,14 +287,14 @@ app.on("web-contents-created", (event, contents) => {
     if (getValue("externalLinks") === "true") {
       if (protocol === "http:" || protocol === "https:") {
         const isAllowedDomain = domains.domains.some((allowedDomain) =>
-          new RegExp(`^${allowedDomain.replace("*.", ".*")}$`).test(domain)
+          new RegExp(`^${allowedDomain.replace(/\./g, "\\.").replace("*\\.", "([a-zA-Z0-9-]+\\.)*")}$`).test(domain)
         );
 
         if (isAllowedDomain) {
           if (getValue("websites-in-new-window") === "false") {
             if (url.includes("page=Download")) return { action: "allow" };
             const focused = BrowserWindow.getFocusedWindow();
-            if (focused) focused.loadURL(url).catch(() => {});
+            if (focused) focused.loadURL(url).catch((err) => console.warn("Failed to load URL:", err));
             if (getValue("discordrpcstatus") === "true" && focused) {
               setActivity(`On "${focused.webContents.getTitle()}"`);
             }
@@ -318,7 +323,7 @@ app.on("web-contents-created", (event, contents) => {
       if (getValue("websites-in-new-window") === "false") {
         if (url.includes("page=Download")) return { action: "allow" };
         const focused = BrowserWindow.getFocusedWindow();
-        if (focused) focused.loadURL(url).catch(() => {});
+        if (focused) focused.loadURL(url).catch((err) => console.warn("Failed to load URL:", err));
         if (getValue("discordrpcstatus") === "true" && focused) {
           setActivity(`On "${focused.webContents.getTitle()}"`);
         }
@@ -396,7 +401,7 @@ app.on("web-contents-created", (event, contents) => {
             adElement.remove();
             observer.disconnect();
           }
-        `).catch(() => {});
+        `).catch((err) => console.warn("Failed to inject Outlook ad removal script:", err));
       }
     });
 
@@ -437,6 +442,8 @@ app.on("browser-window-created", (event, window) => {
   if (getValue("blockadsandtrackers") === "true") {
     ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then((blocker) => {
       blocker.enableBlockingInSession(window.webContents.session);
+    }).catch((err) => {
+      console.warn("Failed to initialize ad blocker:", err);
     });
   }
 });
