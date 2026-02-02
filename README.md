@@ -3,7 +3,7 @@
 Unofficial Microsoft 365 desktop client for Linux, built with Electron.
 
 [![License](https://img.shields.io/github/license/agam778/MS-365-Electron?style=flat)](LICENSE)
-[![Electron](https://img.shields.io/badge/Electron-35-blue?logo=Electron&logoColor=white)](https://electronjs.org)
+[![Electron](https://img.shields.io/badge/Electron-39-blue?logo=Electron&logoColor=white)](https://electronjs.org)
 
 ## Overview
 
