@@ -21,7 +21,7 @@ import { clearActivity, setActivity, loginToRPC } from "./config/rpc.js";
 import { processCLI, getAppForFile } from "./config/cli.js";
 import { initializeTheme, getThemeCSS } from "./config/theme.js";
 import { initPreferencesIPC } from "./config/preferences.js";
-import { initializeSessionManager, restoreSession, saveSession } from "./config/sessionManager.js";
+import { initializeSessionManager, restoreSession } from "./config/sessionManager.js";
 import { initNotificationIPC, injectNotificationObserver } from "./config/notifications.js";
 import { initializeBadge, setTrayRef } from "./config/badge.js";
 import { initializeFileHandler } from "./config/fileHandler.js";
@@ -151,14 +151,7 @@ function createWindow() {
       setActivity(`On "${win.webContents.getTitle()}"`);
     }
 
-    if (getValue("blockadsandtrackers") === "true") {
-      ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then((blocker) => {
-        blocker.enableBlockingInSession(win.webContents.session);
-      }).catch((err) => {
-        console.warn("Failed to initialize ad blocker:", err);
-      });
-    }
-
+    // Ad blocker is initialized via the browser-window-created handler
     // Feature scripts are injected via the web-contents-created handler
   });
 
@@ -462,11 +455,11 @@ app.on("window-all-closed", () => {
 });
 
 /**
- * Handle before quit - save session
+ * Handle before quit - set quitting flag
+ * Session saving is handled by initializeSessionManager()
  */
 app.on("before-quit", () => {
   isQuitting = true;
-  saveSession();
 });
 
 /**

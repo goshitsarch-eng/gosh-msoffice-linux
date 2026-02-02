@@ -829,7 +829,7 @@ export function showPreferences() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      sandbox: false,
+      sandbox: true,
       preload: join(__dirname, "..", "preload.js"),
     },
   });
@@ -853,6 +853,9 @@ export function initPreferencesIPC() {
   });
 
   ipcMain.handle("preferences:set", (event, { key, value }) => {
+    if (typeof key !== "string" || key.length === 0 || key.length > 100) {
+      return { success: false, requiresRestart: false };
+    }
     return setPreference(key, value);
   });
 

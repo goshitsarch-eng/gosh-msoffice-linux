@@ -46,11 +46,6 @@ export function getDisplayServer() {
  * When running under Wayland, this enables the Ozone platform layer.
  */
 export function configureWayland() {
-  // Always enable PipeWire for WebRTC screen capture (works on both X11 and Wayland)
-  app.commandLine.appendSwitch("enable-features",
-    "WebRTCPipeWireCapturer,VaapiVideoDecoder,VaapiVideoEncoder"
-  );
-
   // Only configure Ozone if we're actually under Wayland
   if (isWayland()) {
     // Enable Ozone platform with Wayland support
@@ -60,13 +55,18 @@ export function configureWayland() {
     // Enable Wayland IME support for better text input
     app.commandLine.appendSwitch("enable-wayland-ime");
 
-    // Additional Wayland-specific features
+    // All features in a single call to avoid overwriting
     app.commandLine.appendSwitch("enable-features",
-      "UseOzonePlatform,WaylandWindowDecorations,WebRTCPipeWireCapturer"
+      "UseOzonePlatform,WaylandWindowDecorations,WebRTCPipeWireCapturer,VaapiVideoDecoder,VaapiVideoEncoder"
     );
 
     console.log("Wayland detected - Ozone platform and PipeWire screen sharing enabled");
   } else {
+    // Enable PipeWire for WebRTC screen capture and hardware video acceleration
+    app.commandLine.appendSwitch("enable-features",
+      "WebRTCPipeWireCapturer,VaapiVideoDecoder,VaapiVideoEncoder"
+    );
+
     console.log(`Display server: ${getDisplayServer()} - PipeWire screen sharing enabled`);
   }
 }

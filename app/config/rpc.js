@@ -7,12 +7,17 @@ const client = new Client({
 });
 
 export async function rpcError(status) {
-  const rpcerror = dialog.showMessageBoxSync(BrowserWindow.getFocusedWindow(), {
+  const focusedWindow = BrowserWindow.getFocusedWindow();
+  const dialogOptions = {
     type: "error",
     title: "Discord RPC Error",
     message: `Oops! An Error occured while ${status} Discord RPC.`,
     buttons: ["Close", "Disable Discord RPC"],
-  });
+  };
+
+  const rpcerror = focusedWindow
+    ? dialog.showMessageBoxSync(focusedWindow, dialogOptions)
+    : dialog.showMessageBoxSync(dialogOptions);
 
   if (rpcerror === 1) {
     setValue("discordrpcstatus", "false");
