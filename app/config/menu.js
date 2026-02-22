@@ -231,7 +231,7 @@ function buildMenuTemplate() {
         {
           label: "MS 365 Electron Help",
           accelerator: "F1",
-          click: () => openExternalLink("https://github.com/agam778/MS-365-Electron/wiki"),
+          click: () => openExternalLink("https://github.com/goshitsarch-eng/gosh-msoffice-linux/wiki"),
         },
         {
           label: "Keyboard Shortcuts",
@@ -244,7 +244,7 @@ function buildMenuTemplate() {
         },
         {
           label: "Report Issue...",
-          click: () => openExternalLink("https://github.com/agam778/MS-365-Electron/issues/new"),
+          click: () => openExternalLink("https://github.com/goshitsarch-eng/gosh-msoffice-linux/issues/new"),
         },
         { type: "separator" },
         {
@@ -330,7 +330,7 @@ async function showAboutDialog() {
   });
 
   if (result.response === 1) {
-    openExternalLink("https://github.com/agam778/MS-365-Electron");
+    openExternalLink("https://github.com/goshitsarch-eng/gosh-msoffice-linux");
   }
 }
 

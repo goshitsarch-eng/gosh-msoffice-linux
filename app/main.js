@@ -4,7 +4,7 @@
  */
 
 import { app, Menu, BrowserWindow, dialog, shell, ipcMain, session } from "electron";
-import { ElectronBlocker } from "@cliqz/adblocker-electron";
+import { ElectronBlocker } from "@ghostery/adblocker-electron";
 import { setValue, getValue } from "./config/store.js";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
@@ -12,6 +12,7 @@ import { fileURLToPath } from "url";
 // Configuration imports
 import { getScreenWidth, getScreenHeight } from "./config/dimensions.js";
 import { configureWayland, getDisplayServer, configureScreenSharing, setupDesktopCapturerHandler } from "./config/wayland.js";
+import { configureFonts } from "./config/fonts.js";
 import { configureElectronPaths, initializeXdgDirs } from "./config/xdg.js";
 import { initializeTray, destroyTray } from "./config/tray.js";
 import { getOptimalUserAgent } from "./config/arch.js";
@@ -43,6 +44,7 @@ import logpkg from "electron-log";
 // Configure XDG paths and Wayland BEFORE app.ready
 configureElectronPaths();
 configureWayland();
+configureFonts();
 
 // Set app name and WM class for GNOME/Wayland taskbar icon matching
 app.setName("MS-365-Electron");

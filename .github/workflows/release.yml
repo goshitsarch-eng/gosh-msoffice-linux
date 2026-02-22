@@ -47,6 +47,7 @@ jobs:
             release/*.deb
             release/*.rpm
             release/*.tar.gz
+            release/*.AppImage
           retention-days: 1
 
   build-arm64:
@@ -86,6 +87,7 @@ jobs:
             release/*.deb
             release/*.rpm
             release/*.tar.gz
+            release/*.AppImage
           retention-days: 1
 
   release:
@@ -131,5 +133,6 @@ jobs:
             artifacts/*.deb
             artifacts/*.rpm
             artifacts/*.tar.gz
+            artifacts/*.AppImage
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

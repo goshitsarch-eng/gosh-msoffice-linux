@@ -5,7 +5,7 @@ import { setValue } from "./store.js";
 export async function checkForUpdates() {
   try {
     const res = await axios.get(
-      "https://api.github.com/repos/agam778/MS-365-Electron/releases/latest"
+      "https://api.github.com/repos/goshitsarch-eng/gosh-msoffice-linux/releases/latest"
     );
     const data = res.data;
     const currentVersion = "v" + app.getVersion();
@@ -19,7 +19,7 @@ export async function checkForUpdates() {
         buttons: ["Download", "Close"],
       });
       if (updatedialog === 0) {
-        shell.openExternal("https://github.com/agam778/MS-365-Electron/releases/latest");
+        shell.openExternal("https://github.com/goshitsarch-eng/gosh-msoffice-linux/releases/latest");
       }
     } else {
       dialog.showMessageBoxSync({

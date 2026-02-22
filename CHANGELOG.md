@@ -2,6 +2,41 @@
 
 All notable changes to MS-365-Electron are documented in this file.
 
+## [2.2.0] - 2026-02-22
+
+### Added
+
+#### AppImage Build Target
+- AppImage packages now produced for both x64 and arm64 architectures
+- CI/CD release workflow updated to upload AppImage artifacts alongside DEB, RPM, and tar.gz
+
+#### Bundled Fonts for Immutable Distros (`app/config/fonts.js`)
+- Noto Sans font family bundled as extra resources (Regular, Bold, Italic, BoldItalic, Mono)
+- Automatic fontconfig integration for environments without system fonts
+- Detects AppImage, rpm-ostree/Fedora Atomic/Bazzite, and NixOS
+- Writes fontconfig XML with bundled font directory and system font cascade
+- Configured before `app.ready` so Chromium's Skia picks up fonts immediately
+- SIL Open Font License (OFL.txt) included
+
+### Changed
+
+#### Dependencies
+- Electron 39 → 40 (Chromium 144, Node 24)
+- electron-builder 26.4 → 26.8
+- electron-updater 6.7 → 6.8
+- electron-context-menu 4.0 → 4.1
+- @xhayper/discord-rpc 1.0 → 1.3
+- axios 1.4 → 1.13
+- Ad blocker renamed from `@cliqz/adblocker-electron` to `@ghostery/adblocker-electron` 2.14
+
+#### Repository Metadata
+- Repository URL updated to `goshitsarch-eng/gosh-msoffice-linux`
+- Author, maintainer, and appId updated to match this fork
+- About dialog, help links, update checker, and issue reporter all point to correct repo
+- Fixes auto-updater 404 errors caused by stale upstream URL
+
+---
+
 ## [2.1.0] - 2026-01-16
 
 ### Overview
