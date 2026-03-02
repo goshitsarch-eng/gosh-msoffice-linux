@@ -141,17 +141,4 @@ contextBridge.exposeInMainWorld("electronAPI", {
   },
 });
 
-// Expose platform information
-contextBridge.exposeInMainWorld("platform", {
-  isLinux: true,
-  os: "linux",
-});
-
-// Expose app info
-contextBridge.exposeInMainWorld("appInfo", {
-  getVersion: () => ipcRenderer.invoke("app:getVersion"),
-  getArchitecture: () => ipcRenderer.invoke("app:getArchitecture"),
-  isWayland: () => ipcRenderer.invoke("app:isWayland"),
-});
-
 console.log("Preload script loaded - context isolation enabled");

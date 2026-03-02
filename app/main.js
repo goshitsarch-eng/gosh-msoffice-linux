@@ -202,6 +202,40 @@ contextMenu({
   showServices: false,
 });
 
+
+function getUserAgentClientHintsHeaders(userAgent) {
+  const edgeMatch = userAgent.match(/Edg\/(\d+)/);
+  const chromeMatch = userAgent.match(/Chrome\/(\d+)/);
+  const edgeMajor = edgeMatch ? edgeMatch[1] : "140";
+  const chromeMajor = chromeMatch ? chromeMatch[1] : edgeMajor;
+
+  return {
+    "sec-ch-ua": `"Microsoft Edge";v="${edgeMajor}", "Chromium";v="${chromeMajor}", "Not_A Brand";v="99"`,
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": '"Windows"',
+    "sec-ch-ua-platform-version": '"15.0.0"',
+    "sec-ch-ua-arch": '"x86"',
+    "sec-ch-ua-bitness": '"64"',
+    "sec-ch-ua-model": '""',
+  };
+}
+
+function applyUserAgentSpoofing(targetSession, userAgent) {
+  targetSession.setUserAgent(userAgent);
+
+  const clientHintsHeaders = getUserAgentClientHintsHeaders(userAgent);
+
+  targetSession.webRequest.onBeforeSendHeaders((details, callback) => {
+    const requestHeaders = {
+      ...details.requestHeaders,
+      "User-Agent": userAgent,
+      ...clientHintsHeaders,
+    };
+
+    callback({ requestHeaders });
+  });
+}
+
 // Set application menu
 Menu.setApplicationMenu(Menu.buildFromTemplate(menulayout));
 
@@ -209,11 +243,11 @@ Menu.setApplicationMenu(Menu.buildFromTemplate(menulayout));
  * App ready handler - initialize all modules
  */
 app.on("ready", () => {
-  // Set user agent at session level for all partitions
+  // Apply user-agent and client-hints spoofing for all partitions
   const userAgent = getValue("useragentstring") || getOptimalUserAgent();
-  session.defaultSession.setUserAgent(userAgent);
-  session.fromPartition("persist:personal").setUserAgent(userAgent);
-  session.fromPartition("persist:work").setUserAgent(userAgent);
+  applyUserAgentSpoofing(session.defaultSession, userAgent);
+  applyUserAgentSpoofing(session.fromPartition("persist:personal"), userAgent);
+  applyUserAgentSpoofing(session.fromPartition("persist:work"), userAgent);
 
   // Initialize XDG directories
   initializeXdgDirs();
