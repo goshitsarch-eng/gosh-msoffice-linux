@@ -28,9 +28,9 @@ export function getArchitecture() {
 export function getOptimalUserAgent() {
   const architecture = getArchitecture();
   if (architecture === "aarch64") {
-    return useragents.Linux_aarch64;
+    return useragents.Windows_aarch64;
   }
-  return useragents.Linux_x86_64;
+  return useragents.Windows_x86_64;
 }
 
 /**

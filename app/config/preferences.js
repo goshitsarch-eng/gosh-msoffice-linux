@@ -7,6 +7,7 @@ import { BrowserWindow, ipcMain, nativeTheme, app } from "electron";
 import { getValue, setValue } from "./store.js";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
+import useragents from "../useragents.json" with { type: "json" };
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -170,7 +171,7 @@ export function setPreference(key, value) {
       break;
 
     case "userAgent":
-      setValue("useragentstring", value);
+      setValue("useragentstring", useragents[value] || value);
       requiresRestart = true;
       break;
 
@@ -683,8 +684,8 @@ function getPreferencesHTML() {
           </div>
           <div class="setting-control">
             <select data-pref="userAgent">
-              <option value="Linux_x86_64">Linux x86_64</option>
-              <option value="Linux_aarch64">Linux aarch64</option>
+              <option value="Windows_x86_64">Windows 11 (Edge)</option>
+              <option value="Windows_aarch64">Windows 11 ARM (Edge)</option>
             </select>
           </div>
         </div>
