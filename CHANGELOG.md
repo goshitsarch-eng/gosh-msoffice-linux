@@ -2,6 +2,18 @@
 
 All notable changes to MS-365-Electron are documented in this file.
 
+## [2.3.0] - 2026-03-02
+
+### Changed
+
+#### User Agent — Windows 11 Edge Spoofing
+- All MS Office web apps now identify as Microsoft Edge 145.0.3800.82 on Windows 11
+- User-agent updated from Linux Edge 131 to Windows 11 Edge 145 for full feature parity
+- Preferences dropdown updated: "Linux x86_64/aarch64" → "Windows 11 (Edge)"
+- Fixed preferences to store full UA strings instead of key names
+
+---
+
 ## [2.2.0] - 2026-02-22
 
 ### Added
